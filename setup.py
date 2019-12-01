@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
   name = 'ODSCore',
   packages = ['ODSCore'],   
-  version = '0.4',      
+  version = '0.5',      
   license='MIT',       
   description = 'Core Components for ODS Database',   
   author = 'Monty Dimkpa',                   
   author_email = 'cmdimkpa@gmail.com',      
   url = 'https://github.com/cmdimkpa/ODSCore',   
-  download_url = 'https://github.com/cmdimkpa/ODSCore/archive/v_04.tar.gz',    
+  download_url = 'https://github.com/cmdimkpa/ODSCore/archive/v_05.tar.gz',    
   keywords = ['ODS', 'S3AppDatabase', 'Database'],   
   install_requires=[            
           'requests',
