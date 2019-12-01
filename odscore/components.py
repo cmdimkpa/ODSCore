@@ -40,13 +40,14 @@ class AuthProcess:
         if not self.records:
             http.post(self.dbconnect.base_url+"new_table",json.dumps({"tablename":"auth","fields":["username","appname","started","duration"]}),headers={"Content-Type":"application/json"})
             self.records = []
-    def new_session(self,appname,username,duration):
+    def new_session(self,appname,username,duration=600):
         # check session exists
         exist = [session for session in [x for x in self.records if "appname" in x and "username" in x] if session["appname"] == appname and session["username"] == username]
+        status = None
         if exist:
             # session exists; check if expired
-            session = exist[-1]; return check_expired(session)
-        else:
+            session = exist[-1]; status = check_expired(session)
+        if status == 401 or not exist:
             # create new session
             try:
                 duration = int(float(duration))
@@ -57,6 +58,8 @@ class AuthProcess:
             self.dbconnect.dbTask("new_record","auth",{},new); token = self.dbconnect.response.json()["data"]["auth_id"]; new["auth_id"] = token
             self.records.append(new)
             return token # send auth token
+        else:
+            return status
     def check_session(self,appname,username,token):
         exist = [session for session in self.records if session["auth_id"] == token and session["appname"] == appname and session["username"] == username]
         if not exist:
