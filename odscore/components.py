@@ -57,8 +57,8 @@ class AuthProcess:
             self.dbconnect.dbTask("new_record","auth",{},new); token = self.dbconnect.response.json()["data"]["auth_id"]; new["auth_id"] = token
             self.records.append(new)
             return token # send auth token
-    def check_session(self,token):
-        exist = [session for session in self.records if session["auth_id"] == token]
+    def check_session(self,appname,username,token):
+        exist = [session for session in self.records if session["auth_id"] == token and session["appname"] == appname and session["username"] == username]
         if not exist:
             return 403
         else:
