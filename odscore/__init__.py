@@ -1,1 +1,1 @@
-from ODSCore.components import *
+from components import *
