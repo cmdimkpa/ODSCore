@@ -37,6 +37,9 @@ class AuthProcess:
     def __init__(self,host,port):
         self.dbconnect = DBConnector(host,port)
         self.dbconnect.dbTask("fetch_records","auth",{}); self.records = self.dbconnect.response.json()["data"]
+        if not self.records:
+            http.post(self.dbconnect.base_url+"new_table",json.dumps({"tablename":"auth","fields":["username","appname","started","duration"]}),headers={"Content-Type":"application/json"})
+            self.records = []
     def new_session(self,appname,username,duration):
         # check session exists
         exist = [session for session in [x for x in self.records if "appname" in x and "username" in x] if session["appname"] == appname and session["username"] == username]
